@@ -13,3 +13,6 @@ Optimizations:
 -- instantiate campsite objects using json_decode data
 
 - organize file structure
+
+- add as much documentation as possible 
+- evaluate vars/func's for readability

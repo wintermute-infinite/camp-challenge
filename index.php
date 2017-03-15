@@ -1,13 +1,13 @@
 <?php
 	
-	$str = file_get_contents('./test-case.json');
+	$json = file_get_contents('./test-case.json');
 
-	$json = json_decode($str);
+	$data = json_decode($json);
 
-	$search = $json->search;
-	$campsites = $json->campsites;
-	$gapRules = $json->gapRules;
-	$reservations = $json->reservations;
+	$search = $data->search;
+	$campsites = $data->campsites;
+	$gapRules = $data->gapRules;
+	$reservations = $data->reservations;
 
 
 	echo "<h1>Search</h1>";
