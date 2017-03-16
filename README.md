@@ -4,15 +4,25 @@ There are 2 primary considerations in completing this: problem solution and opti
 
 Solution:
 
-The starting point for the solution will be in calculating the existing reservations' gaps and then comparing them to the search terms
+Before doing anything else I should start comparing the search dates, first eliminating those sites with reservation overlap, then those that have gaps that cannot accomodate the search terms given the gap rules. 
+
+The starting point for the solution will be in calculating the existing reservations' gaps and then comparing them to the search terms.
+
+Getting the reservation gaps on each property requires a comparison of each record's end date with the following record's start date. One thing to consider is that although each record as given is chronological, an optimization may include a function that makes sure the records are in chronological order - b/c if they aren't it will render to date diff comp unworkable.
 
 Optimizations:
 
 - Create campsite class
--- props for id (int), name (string) and reservations (array)
--- instantiate campsite objects using json_decode data
+- extend dateTime class to reservation/stay class
 
-- organize file structure
 
+
+#TODO
 - add as much documentation as possible 
 - evaluate vars/func's for readability
+- convert all dates to datetime obj in initial parsing
+- replace comparator if statement on reservations int with gapRules
+- reverse/inspect if clauses in reservations loop to see if can be optimized for inverse case
+- organize file structure
+- match return ids from reservation results with campsites objects
+- eliminate duplicate campsiteIds in that array
