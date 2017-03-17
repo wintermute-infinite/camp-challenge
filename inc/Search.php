@@ -10,14 +10,14 @@ Class Search {
         $this->setSearchEndDate(date_create_from_format("Y-m-d", $searchEndDate));
     }
 
-    public function checkAvailability($searchDates, $reservations) {
-        include './data.php';
+    public function checkAvailability($searchDates, $reservations, $campsites) {
 
         $searchStartDate =  $searchDates->getSearchStartDate();
         $searchEndDate =  $searchDates->getSearchEndDate();
 
         $availCampsiteIds = $this->generateAvailableCampsiteIds($reservations, $searchStartDate, $searchEndDate);
-        $this->displayAvailableCampsiteNames($campsites, $availCampsiteIds);
+        $resultsArray = $this->returnAvailableCampsiteNames($campsites, $availCampsiteIds);
+        return $resultsArray;
     }
 
     private function generateAvailableCampsiteIds($reservations, $searchStartDate, $searchEndDate) {
@@ -28,11 +28,11 @@ Class Search {
 
         foreach ($reservations as $reservation) {
 
-//	    convert string dates into PHP DateTime objects in order to use the DateDiff static method which requires DateTime objects as arguments
+//	    convert string dates into PHP DateTime objects in order to use the DateDiff function which requires DateTime objects as arguments
             $resStartDate = date_create_from_format("Y-m-d", $reservation->startDate);
             $resEndDate = date_create_from_format("Y-m-d", $reservation->endDate);
 
-//		perform dateDiff function to determine the number of days between each date and store in vars
+//		perform dateDiff function to determine the number of days between each date and store in vars. ->d is the flag to calculate the diff in days
             $searchStartDateDiff = (date_diff($searchStartDate, $resEndDate, TRUE))->d;
             $searchEndDateDiff = (date_diff($searchEndDate, $resStartDate, TRUE))->d;
 
@@ -53,13 +53,14 @@ Class Search {
         return $availCampsiteIds;
     }
 
-    private function displayAvailableCampsiteNames($campsites, $availCampsiteIds) {
+    private function returnAvailableCampsiteNames($campsites, $availCampsiteIds) {
+        $resultsArray = [];
         foreach ($campsites as $campsite) {
             if (in_array($campsite->id, $availCampsiteIds)) {
-                print_r($campsite->name);
-                echo "<br />";
+                $resultsArray[] = $campsite->name;
             }
         }
+        return $resultsArray;
     }
 
     private function setSearchStartDate($searchStartDate) {

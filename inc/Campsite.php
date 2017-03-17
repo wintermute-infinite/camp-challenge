@@ -3,7 +3,6 @@
 class Campsite {
 	private $id;
 	private $name;
-	private $siteReservations = [];
 
 	public function __construct($id, $name) {
 		$this->id = $id;
