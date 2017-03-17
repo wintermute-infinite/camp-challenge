@@ -55,25 +55,37 @@
         $searchEndDateDiff = (date_diff($searchEndDate, $resStartDate, TRUE))->d;
 
 //      eliminates all cases where the requested reservation overlaps with any existing reservations
-		 if (($searchStartDate <= $resEndDate) && ($searchEndDate >= $resStartDate)) {
-//      Do nothing
+		if (($searchStartDate <= $resEndDate) && ($searchEndDate >= $resStartDate)) {
+            continue;
 //      eliminates all cases where the date diff violates the gapRules
 		 } elseif (($searchStartDateDiff >= 3 && $searchStartDateDiff <= 4) || ($searchEndDateDiff >= 3 && $searchEndDateDiff <= 4)) {
-//      Do nothing
+            print_r($reservation->campsiteId);
+		    echo "violates gap rules";
+		    continue;
 //      matches all non-violating/matching dates
         } else {
+//		     checks to see if the campsiteId has already been added to the array, and only executes/adds if it is not yet present
+             if( !in_array($reservation->campsiteId, $availCampsiteIds) ){
+//		         pushes the matching reservation record property of campsiteId to previously initialized array
+                 $availCampsiteIds[] = $reservation->campsiteId;
 
-//		     pushes the matching reservation record property of campsiteId to previously initialized array
-             $availCampsiteIds[] = $reservation->campsiteId;
+//               prints out visual confirmation of each site that is available for the searched by dates
+                 echo "<h2>Reservation for campsiteId" . $reservation->campsiteId . "</h2>";
+                 echo "<h3>is available</h3>";
+                 echo "<br />";
 
-//           prints out visual confirmation of each site that is available for the searched by dates
-		     echo "<h2>Reservation for campsiteId" . $reservation->campsiteId . "</h2>";
-		     echo "<h3>is available</h3>";
-             echo "<br />";
+//               outputs debug data to show that the array is being built properly
+//                 print_r($availCampsiteIds);
+             }
 
-//           outputs debug data to show that the array is being built properly
-             print_r($availCampsiteIds);
         }
 	}
+
+	foreach ($campsites as $campsite) {
+	    if (in_array($campsite->id, $availCampsiteIds)) {
+	        print_r($campsite->name);
+	        echo "<br />";
+        }
+    }
 
 ?>

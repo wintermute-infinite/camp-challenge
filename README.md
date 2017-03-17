@@ -10,12 +10,10 @@ The starting point for the solution will be in calculating the existing reservat
 
 Getting the reservation gaps on each property requires a comparison of each record's end date with the following record's start date. One thing to consider is that although each record as given is chronological, an optimization may include a function that makes sure the records are in chronological order - b/c if they aren't it will render to date diff comp unworkable.
 
-Optimizations:
+#Optimizations:
 
 - Create campsite class
-- extend dateTime class to reservation/stay class
-
-
+- adjust class scopes
 
 #TODO
 - add as much documentation as possible 
@@ -24,5 +22,7 @@ Optimizations:
 - replace comparator if statement on reservations int with gapRules
 - reverse/inspect if clauses in reservations loop to see if can be optimized for inverse case
 - organize file structure
-- match return ids from reservation results with campsites objects
-- eliminate duplicate campsiteIds in that array
+
+#Tests
+- search terms dates
+- setReservations return value

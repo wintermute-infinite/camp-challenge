@@ -1,33 +1,30 @@
 <?php
 
 class Campsite {
-	protected $id;
-	protected $name;
-	protected $siteReservations;
+	private $id;
+	private $name;
+	private $siteReservations = [];
 
 	public function __construct($id, $name) {
 		$this->id = $id;
 		$this->name = $name;
 	}
 
-	public function setReservations() {
-		global $reservations;
+	private function setId($id) {
+	    $this->id = $id;
+    }
 
-		foreach ($reservations as $reservation) {
-			if ($reservation->campsiteId == $this->id) {
-				$siteReservation["startDate"] = $reservation->startDate;
-				$siteReservation["endDate"] = $reservation->endDate;
+    private function getId() {
+	    return $this->id;
+    }
 
-				print_r($siteReservation["startDate"]);
-				print_r($siteReservation["endDate"]);
-				echo "<br />";
-			}
-		}
-	}
+    private function setName($name) {
+        $this->name = $name;
+    }
 
-	public function getReservations() {
-		
-	}
+    private function getName() {
+        return $this->name;
+    }
 
 }
 
