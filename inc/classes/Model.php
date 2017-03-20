@@ -1,6 +1,10 @@
 <?php
-
-define("DATA_ROOTPATH", "/var/www/html/projects/campspot/inc/model/");
+/**
+ * Created by PhpStorm.
+ * User: n0cturn3
+ * Date: 3/18/17
+ * Time: 10:08 AM
+ */
 
 class Model {
     private $data;
@@ -13,17 +17,7 @@ class Model {
     private $searchStartDate;
     private $searchEndDate;
 
-    public function __construct($dataPath)
-    {
-        $this->setData($dataPath);
-
-        $data = $this->getData();
-
-        $this->setSearchData($data);
-        $this->setCampsitesData($data);
-        $this->setGapRulesData($data);
-        $this->setReservationsData($data);
-    }
+    private $dataSrcPath;
 
     public function getSearchData() {
         return $this->search;
@@ -39,6 +33,11 @@ class Model {
 
     public function getReservationsData() {
         return $this->reservations;
+    }
+
+    protected function getDataType($dataType) {
+        $dataSrcPath = "/var/www/html/projects/campspot/inc/model/" . $dataType . "/";
+        return $dataSrcPath;
     }
 
     private function setData($data) {
