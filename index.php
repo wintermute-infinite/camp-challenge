@@ -14,18 +14,20 @@ $decodedData = $rawData->getDecodedData();
 
 $searchData = $decodedData->search;
 $reservationsData = $decodedData->reservations;
-$gapRules = $decodedData->gapRules;
+$gapRulesData = $decodedData->gapRules;
 $campsitesData = $decodedData->campsites;
 
 //var_dump($reservations);
 
 // instantiate objects
 
-$reservations = new Reservations($reservationsData);
 $search = new Search($searchData);
+$reservationsObj = new Reservations($reservationsData);
+$gapRulesObj = new GapRules($gapRulesData);
 $campsitesObj = new Campsites($campsitesData);
 
-$reservations = $reservations->getReservations();
+$reservations = $reservationsObj->getReservations();
+$gapRules = $gapRulesObj->getGapRules();
 $campsites = $campsitesObj->getCampsitesData();
 $campsiteIds = $campsitesObj->getCampsiteIds();
 

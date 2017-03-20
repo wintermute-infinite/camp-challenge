@@ -2,22 +2,20 @@
 
 require_once ("/var/www/html/projects/campspot/inc/classes/ModelParse.php");
 
-class GapRules extends ModelParse
+class GapRules
 {
     private $gapRules;
 
-    public function __construct()
+    public function __construct($gapRulesData)
     {
-        parent::__construct();
-        $this->setGapRules();
+        $this->setGapRules($gapRulesData);
     }
 
     public function getGapRules() {
         return $this->gapRules;
     }
 
-    private function setGapRules() {
-        $gapRules = $this->getDecodedDataByPrimaryGroup("gapRules");
-        $this->gapRules = $gapRules;
+    private function setGapRules($gapRulesData) {
+        $this->gapRules = $gapRulesData;
     }
 }

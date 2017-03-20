@@ -18,5 +18,4 @@ class ReservationsTest extends TestCase
         $this->assertEquals($expected, $actual);
 
     }
-
 }
