@@ -12,17 +12,19 @@ Getting the reservation gaps on each property requires a comparison of each reco
 
 #Optimizations:
 
-- Create campsite class
-- adjust class scopes
+- Merge and massage the previous class refactors with the needs for a primary engine that is easily testable
 
 #TODO
 - add as much documentation as possible 
 - evaluate vars/func's for readability
-- convert all dates to datetime obj in initial parsing
-- replace comparator if statement on reservations int with gapRules
 - reverse/inspect if clauses in reservations loop to see if can be optimized for inverse case
 - organize file structure
+- add modelParse test for non-json files
+- make all test function naming conventions consistent
 
 #Tests
-- search terms dates
-- setReservations return value
+- GenerateAvailability
+- Search
+- ModelDecodeJSON
+- ModelParse
+

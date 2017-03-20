@@ -2,15 +2,14 @@
 
 require_once ("/var/www/html/projects/campspot/inc/classes/ModelParse.php");
 
-class Campsites extends ModelParse
+class Campsites
 {
 	private $campsites;
 	private $campsiteIds;
 
-    public function __construct()
+    public function __construct($campsitesData)
     {
-        parent::__construct();
-        $this->setCampsitesData();
+        $this->setCampsitesData($campsitesData);
         $this->setCampsiteIds();
     }
 
@@ -22,8 +21,7 @@ class Campsites extends ModelParse
         return $this->campsiteIds;
     }
 
-    private function setCampsitesData() {
-        $campsitesData = $this->getDecodedDataByPrimaryGroup("campsites");
+    private function setCampsitesData($campsitesData) {
         $this->campsites = $campsitesData;
     }
 

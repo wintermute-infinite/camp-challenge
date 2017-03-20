@@ -5,11 +5,12 @@ namespace PHPUnit\Framework;
 class ModelDecodeJsonTest extends TestCase
 {
 
-    public function test_ModelDecodeJson_RetrievesCorrectPathToDataTypeSrc() {
-
+    public function test_ModelDecodeJson_RetrievesCorrectPathToDataTypeSrc()
+    {
+        $file = ("test-case.json");
         $expected = "/var/www/html/projects/campspot/inc/model/json/";
 
-        $testClassObject = new \ModelDecodeJson();
+        $testClassObject = new \ModelDecodeJson($file);
 
         $actual = $testClassObject->getDataSrcPath();
 
@@ -17,11 +18,12 @@ class ModelDecodeJsonTest extends TestCase
 
     }
 
-    public function test_ModelDecodeJson_ReturnsRawData() {
-
+    public function test_ModelDecodeJson_ReturnsRawData()
+    {
+        $file = ("test-case.json");
         $expected = file_get_contents("/var/www/html/projects/campspot/inc/model/json/test-case.json");
 
-        $testClassObject = new \ModelDecodeJson();
+        $testClassObject = new \ModelDecodeJson($file);
 
         $actual = $testClassObject->returnRawData("test-case.json");
 
@@ -29,12 +31,13 @@ class ModelDecodeJsonTest extends TestCase
 
     }
 
-    public function test_ModelDecodeJson_DecodesJsonIntoPhp() {
-
+    public function test_ModelDecodeJson_DecodesJsonIntoPhp()
+    {
         $rawData = file_get_contents("/var/www/html/projects/campspot/inc/model/json/test-case.json");
+        $file = ("test-case.json");
         $expected = json_decode($rawData);
 
-        $testClassObject = new \ModelDecodeJson();
+        $testClassObject = new \ModelDecodeJson($file);
 
         $actual = $testClassObject->returnDecodedData("test-case.json");
 
@@ -42,9 +45,16 @@ class ModelDecodeJsonTest extends TestCase
 
     }
 
-//    public function test_ModelDecodeJson_
+    public function test_ModelDecodeJson_TakesFileArgumentInConstructor() {
+        $rawData = file_get_contents("/var/www/html/projects/campspot/inc/model/json/test-case.json");
+        $file = ("test-case.json");
 
-//    public function test_ModelDecodeJson_OnlyAcceptsJsonFormat() {
-//        $dataFile = "test-case.json";
-//    }
+        $expected = json_decode($rawData);
+
+        $testClassObject = new \ModelDecodeJson($file);
+
+        $actual = $testClassObject->returnDecodedData("test-case.json");
+
+        $this->assertEquals($expected, $actual);
+    }
 }

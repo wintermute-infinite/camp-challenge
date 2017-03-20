@@ -7,13 +7,13 @@ class ModelParse extends Model
     public $decodedData;
     public $groupData;
 
-    public function __construct()
+    public function __construct($file)
     {
-        $this->setDecodedData();
+        $this->setDecodedData($file);
     }
 
-    public function setDecodedData() {
-        $dataObj = new ModelDecodeJson();
+    public function setDecodedData($file) {
+        $dataObj = new ModelDecodeJson($file);
         $decodedData = $dataObj->returnDecodedData();
         $this->decodedData = $decodedData;
     }

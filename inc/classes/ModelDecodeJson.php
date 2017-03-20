@@ -4,10 +4,11 @@ include("/var/www/html/projects/campspot/inc/classes/ModelDecode.php");
 
 class ModelDecodeJson extends Model implements ModelDecode
 {
-    private $file = "test-case.json";
+    private $file;
 
-    public function __construct()
+    public function __construct($file)
     {
+        $this->setFile($file);
         $this->getFile();
     }
 
@@ -29,6 +30,10 @@ class ModelDecodeJson extends Model implements ModelDecode
         $rawData = $this->returnRawData();
         $decodedData = json_decode($rawData);
         return $decodedData;
+    }
+
+    private function setFile($file) {
+        $this->file = $file;
     }
 
     private function getFile() {

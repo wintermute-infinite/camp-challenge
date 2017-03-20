@@ -5,8 +5,10 @@ namespace PHPUnit\Framework;
 class ReservationsTest extends TestCase
 {
     public function test_GetReservationData_WillReturnAllDataFromInheritedClassMethods() {
+        $rawData = file_get_contents("/var/www/html/projects/campspot/inc/model/json/test-case.json");
+        $decodedData = json_decode($rawData);
+        $expected = $decodedData->reservations;
 
-        $reservationDataObj = new \ModelParse();
         $expected = $reservationDataObj->getDecodedDataByPrimaryGroup("reservations");
 
         $testClassObject = new \Reservations();
@@ -17,15 +19,4 @@ class ReservationsTest extends TestCase
 
     }
 
-//    public function test_GetReservationIds_WillReturnArrayOfReservationIds() {
-//
-//        $expected = [1,2,3,4,5,6,7,8,9];
-//
-//        $testClassObject = new \Reservation();
-//
-//        $actual = $testClassObject->getReservationIds();
-//
-//        $this->assertEquals($expected, $actual);
-//
-//    }
 }

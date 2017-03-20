@@ -7,20 +7,25 @@ function __autoload($class) {
     require "./inc/classes/" . $class . ".php";
 }
 
-$rawData = new ModelDecodeJson();
-$decodedData = $rawData->returnDecodedData();
+$dataFile = "test-case.json";
+
+$rawData = new ModelParse($dataFile);
+$decodedData = $rawData->getDecodedData();
 
 $searchData = $decodedData->search;
-$reservations = $decodedData->reservations;
+$reservationsData = $decodedData->reservations;
 $gapRules = $decodedData->gapRules;
+$campsitesData = $decodedData->campsites;
 
-var_dump($gapRules);
+//var_dump($reservations);
 
 // instantiate objects
+
+$reservations = new Reservations($reservationsData);
 $search = new Search($searchData);
+$campsitesObj = new Campsites($campsitesData);
 
-$campsitesObj = new Campsites();
-
+$reservations = $reservations->getReservations();
 $campsites = $campsitesObj->getCampsitesData();
 $campsiteIds = $campsitesObj->getCampsiteIds();
 
