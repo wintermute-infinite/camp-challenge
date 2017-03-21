@@ -1,6 +1,5 @@
 <?php
 
-
 //Use PHP's magic method for autoloading classes when they are called but not found
 
 function __autoload($class) {
@@ -17,8 +16,6 @@ $reservationsData = $decodedData->reservations;
 $gapRulesData = $decodedData->gapRules;
 $campsitesData = $decodedData->campsites;
 
-//var_dump($reservations);
-
 // instantiate objects
 
 $search = new Search($searchData);
@@ -31,9 +28,8 @@ $gapRules = $gapRulesObj->getGapRules();
 $campsites = $campsitesObj->getCampsitesData();
 $campsiteIds = $campsitesObj->getCampsiteIds();
 
-$resultsArray = $search->checkAvailability($search, $reservations, $campsites, $campsiteIds, $gapRules);
+$resultsArray = $search->checkAvailability($search, $reservationsObj, $campsites, $campsiteIds, $gapRulesObj);
 
-//
 //// iterates over results array and displays each on a new line
 
 foreach ($resultsArray as $result) {

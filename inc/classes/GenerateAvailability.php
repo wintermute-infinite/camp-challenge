@@ -1,69 +1,62 @@
 <?php
 
+require_once ("/var/www/html/projects/campspot/inc/classes/GapRules.php");
+require_once ("/var/www/html/projects/campspot/inc/classes/Reservations.php");
+
 class GenerateAvailability {
 
-    public function generateAvailableCampsiteIds($reservations, $campsiteIds, $searchStartDate, $searchEndDate, $gapRules) {
+    public function generateAvailableCampsiteIds($reservationsObj, $campsiteIds, $searchStartDate, $searchEndDate, $gapRulesObj) {
 
-        if (empty($reservations)) {
-            return $campsiteIds;
-        }
-
-        //	initialize array for storing pushed campsiteIds for use in matching to campsite objects
+        if (empty($reservationsObj)) {return $campsiteIds;}
 
         $availCampsiteIds = $campsiteIds;
         $notAvailCampsiteIds = [];
 
-        $gapRuleArray = $this->processGapRulesData($gapRules);
+        $gapRuleArray = $gapRulesObj->convertGapRulesToArray();
+
+        $reservations = $reservationsObj->getReservations();
 
         foreach ($reservations as $reservation) {
 
-//	    convert string dates into PHP DateTime objects in order to use the DateDiff function which requires DateTime objects as arguments
+//            convert string dates into PHP DateTime objects in order to use the DateDiff function which requires DateTime objects as arguments
 
-            $resStartDateString = $reservation->startDate;
-            $resEndDateString = $reservation->endDate;
+            $resStartDate = $reservationsObj->getReservationsStartDate($reservation);
+            $resEndDate = $reservationsObj->getReservationsEndDate($reservation);
 
-            $resStartDate = date_create_from_format("Y-m-d", $resStartDateString);
-            $resEndDate = date_create_from_format("Y-m-d", $resEndDateString);
-
-//		perform dateDiff function to determine the number of days between each date and store in vars. ->d is the flag to calculate the diff in days
+//		    perform dateDiff function to determine the number of days between each date and store in vars. ->d is the flag to calculate the diff in days
             $searchStartDateDiff = (date_diff($searchStartDate, $resEndDate, TRUE))->d;
             $searchEndDateDiff = (date_diff($searchEndDate, $resStartDate, TRUE))->d;
 
-            if (($searchStartDate == $resStartDate) || ($searchEndDate == $resEndDate)) {
-                $notAvailCampsiteIds[] = $reservation->campsiteId;
-                continue;
-            }
-//      eliminates all cases where the requested reservation overlaps with any existing reservations
-            elseif (($searchStartDate <= $resEndDate) && ($searchEndDate >= $resStartDate)) {
-                $notAvailCampsiteIds[] = $reservation->campsiteId;
-                continue;
-//      eliminates all cases where the date diff violates the gapRules
-            }
-            elseif (($searchStartDateDiff >= $gapRuleArray[0] && $searchStartDateDiff <= $gapRuleArray[1]) || ($searchEndDateDiff >= $gapRuleArray[0] && $searchEndDateDiff <= $gapRuleArray[1])) {
+            $gapRuleViolation = false;
 
+            if (!empty($gapRuleArray)) {
+                $gapRuleViolation = $this->calculateGapRuleViolations($searchStartDateDiff, $searchEndDateDiff, $gapRuleArray);
+            }
+            if ((($searchStartDate == $resStartDate) || ($searchEndDate == $resEndDate)) || ($searchStartDate <= $resEndDate) && ($searchEndDate >= $resStartDate) || $gapRuleViolation) {
                 $notAvailCampsiteIds[] = $reservation->campsiteId;
                 continue;
-//      matches all non-violating/matching dates
             }
             elseif( (!in_array($reservation->campsiteId, $availCampsiteIds))) {
-//		        pushes the matching reservation record property of campsiteId to previously initialized array
                 $availCampsiteIds[] = $reservation->campsiteId;
+                continue;
             }
         }
         $generatedAvailableCampsiteIds = array_values(array_diff($availCampsiteIds, $notAvailCampsiteIds));
 
-
         return $generatedAvailableCampsiteIds;
     }
 
-    public function processGapRulesData($gapRules) {
-        $gapRuleArray = [];
+    private function calculateGapRuleViolations($searchStartDateDiff, $searchEndDateDiff, $gapRuleArray) {
 
-        foreach ($gapRules as $gapRule) {
-            $gapRuleArray[] = (($gapRule->gapSize) + 1);
+        if (($searchStartDateDiff == $gapRuleArray[0]["gapSize"]) || ($searchEndDateDiff == $gapRuleArray[0]["gapSize"])) {
+            return true;
         }
-        sort($gapRuleArray);
-        return $gapRuleArray;
+        elseif (count($gapRuleArray) > 1) {
+            if (($searchStartDateDiff >= $gapRuleArray[0]["gapSize"] && $searchStartDateDiff <= $gapRuleArray[1]["gapSize"]) || ($searchEndDateDiff >= $gapRuleArray[0]["gapSize"] && $searchEndDateDiff <= $gapRuleArray[1]["gapSize"])) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

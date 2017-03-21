@@ -18,7 +18,8 @@ class ModelDecodeJson extends Model implements ModelDecode
         return $dataSrcPath;
     }
 
-    public function returnRawData() {
+    public function returnRawData()
+    {
         $file = $this->getFile();
         $dataSrcPath = $this->getDataSrcPath();
         $rawDataFile = $dataSrcPath . $file;
@@ -26,17 +27,20 @@ class ModelDecodeJson extends Model implements ModelDecode
         return $rawData;
     }
 
-    public function returnDecodedData() {
+    public function returnDecodedData()
+    {
         $rawData = $this->returnRawData();
         $decodedData = json_decode($rawData);
         return $decodedData;
     }
 
-    private function setFile($file) {
+    private function setFile($file)
+    {
         $this->file = $file;
     }
 
-    private function getFile() {
+    private function getFile()
+    {
         return $this->file;
     }
 }

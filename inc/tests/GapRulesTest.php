@@ -4,16 +4,22 @@ namespace PHPUnit\Framework;
 
 class GapRulesTest extends TestCase
 {
-    public function test_GetGapRulesData_WillReturnAllDataFromInheritedClassMethods() {
+    public function test_convertGapRulesToArray_GapRuleArrayValuesAreNotInOrderAndAreSortedLowestToHighest()
+    {
+        $rawData = file_get_contents("/var/www/html/projects/campspot/inc/model/json/test-case.json");
 
-        $gapRulesDataObj = new \ModelParse();
-        $expected = $gapRulesDataObj->getDecodedDataByPrimaryGroup("gapRules");
+        $decodedData = json_decode($rawData);
+        $gapRulesData = $decodedData->gapRules;
 
-        $testClassObject = new \GapRules();
+        $expected = [
+            ["gapSize" => 3],
+            ["gapSize" => 4]
+        ];
 
-        $actual = $testClassObject->getGapRules();
+        $testClassObject = new \GapRules($gapRulesData);
+
+        $actual = $testClassObject->convertGapRulesToArray();
 
         $this->assertEquals($expected, $actual);
-
     }
 }

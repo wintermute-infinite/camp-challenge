@@ -28,3 +28,8 @@ Getting the reservation gaps on each property requires a comparison of each reco
 - ModelDecodeJSON
 - ModelParse
 
+#Class Visibility Reviewed
+- Campsites
+- GapRules
+- 
+

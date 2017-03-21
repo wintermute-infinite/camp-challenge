@@ -2,30 +2,21 @@
 
 namespace PHPUnit\Framework;
 
-class CampsiteTest extends TestCase
+class CampsitesTest extends TestCase
 {
-    public function test_GetCampsiteData_WillReturnAllDataFromInheritedClassMethods() {
+    public function test_GetCampsiteIds_WillReturnArrayOfCampsiteIds()
+    {
+        $rawData = file_get_contents("../model/json/test-case.json");
+        $decodedData = json_decode($rawData);
 
-        $campsiteDataObj = new \ModelParse();
-        $expected = $campsiteDataObj->getDecodedDataByPrimaryGroup("campsites");
-
-        $testClassObject = new \Campsites();
-
-        $actual = $testClassObject->getCampsitesData();
-
-        $this->assertEquals($expected, $actual);
-
-    }
-
-    public function test_GetCampsiteIds_WillReturnArrayOfCampsiteIds() {
+        $campsites = $decodedData->campsites;
 
         $expected = [1,2,3,4,5,6,7,8,9];
 
-        $testClassObject = new \Campsites();
+        $testClassObject = new \Campsites($campsites);
 
         $actual = $testClassObject->getCampsiteIds();
 
         $this->assertEquals($expected, $actual);
-
     }
 }

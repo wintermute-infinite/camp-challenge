@@ -6,8 +6,8 @@ namespace PHPUnit\Framework;
 class GenerateAvailabilityTest extends TestCase
 {
 
-    public function test_generateAvailableCampsiteIds_ReturnsAllCampsiteIdsIfReservationsIsEmpty() {
-
+    public function test_generateAvailableCampsiteIds_ReturnsAllCampsiteIdsIfReservationsIsEmpty()
+    {
         $reservations = [];
         $campsiteIds = [1,2,3,4,5,6,7,8,9];
         $gapRules = array(
@@ -27,16 +27,18 @@ class GenerateAvailabilityTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_generateAvailableCampsiteIds_ReturnsTrimmedArrayForSearchOverlappingWithExistingReservations() {
-
+    public function test_generateAvailableCampsiteIds_ReturnsTrimmedArrayForSearchOverlappingWithExistingReservations()
+    {
         $reservations = array(
             (object)["campsiteId" => 1, "startDate" => "2016-06-01", "endDate" => "2016-06-04"]
         );
+        $reservationsObj = new \Reservations($reservations);
         $campsiteIds = [1,2,3,4,5,6,7,8,9];
         $gapRules = array(
             (object)["gapSize" => 2],
             (object)["gapSize" => 3]
         );
+        $gapRulesObj = new \GapRules($gapRules);
 
         $searchStartDate = date_create("2016-06-01");
         $searchEndDate = date_create("2016-06-04");
@@ -45,20 +47,24 @@ class GenerateAvailabilityTest extends TestCase
 
         $testClassObject = new \GenerateAvailability();
 
-        $actual = $testClassObject->generateAvailableCampsiteIds($reservations, $campsiteIds, $searchStartDate, $searchEndDate, $gapRules);
+        $actual = $testClassObject->generateAvailableCampsiteIds($reservationsObj, $campsiteIds, $searchStartDate, $searchEndDate, $gapRulesObj);
 
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_generateAvailableCampsiteIds_ReturnsExpectedFinalResultsArrayIds() {
+    public function test_generateAvailableCampsiteIds_ReturnsExpectedFinalResultsArrayIds()
+    {
         $rawData = file_get_contents("../model/json/test-case.json");
         $decodedData = json_decode($rawData);
+
         $reservations = $decodedData->reservations;
+        $reservationsObj = new \Reservations($reservations);
         $campsiteIds = [1,2,3,4,5,6,7,8,9];
         $gapRules = array(
             (object)["gapSize" => 2],
             (object)["gapSize" => 3]
         );
+        $gapRulesObj = new \GapRules($gapRules);
 
         $searchStartDateString = "2016-06-07";
         $searchEndDateString = "2016-06-10";
@@ -68,22 +74,55 @@ class GenerateAvailabilityTest extends TestCase
         $expected = [5,6,8,9];
 
         $testClassObject = new \GenerateAvailability();
-        $actual = $testClassObject->generateAvailableCampsiteIds($reservations, $campsiteIds, $searchStartDate, $searchEndDate, $gapRules);
+        $actual = $testClassObject->generateAvailableCampsiteIds($reservationsObj, $campsiteIds, $searchStartDate, $searchEndDate, $gapRulesObj);
 
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_processGapRulesData_GapRuleArrayValuesAreNotInOrderAndAreSortedLowestToHighest() {
+    public function test_generateAvailableCampsiteIds_ProducesResultsForNoGapRules()
+    {
+        $rawData = file_get_contents("../model/json/test-case.json");
+        $decodedData = json_decode($rawData);
 
-        $gapRules = array(
-            (object)["gapSize" => 4],
-            (object)["gapSize" => 2]
-        );
+        $reservations = $decodedData->reservations;
+        $reservationsObj = new \Reservations($reservations);
+        $campsiteIds = [1,2,3,4,5,6,7,8,9];
+        $gapRules = [];
+        $gapRulesObj = new \GapRules($gapRules);
 
-        $expected = [3,5];
+        $searchStartDate = date_create("2016-06-07");
+        $searchEndDate = date_create("2016-06-10");
+
+        $expected = [1,3,4,5,6,8,9];
 
         $testClassObject = new \GenerateAvailability();
-        $actual = $testClassObject->processGapRulesData($gapRules);
+
+        $actual = $testClassObject->generateAvailableCampsiteIds($reservationsObj, $campsiteIds, $searchStartDate, $searchEndDate, $gapRulesObj);
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function test_generateAvailableCampsiteIds_ProducesResultsForSingleGapRules()
+    {
+        $rawData = file_get_contents("../model/json/test-case.json");
+        $decodedData = json_decode($rawData);
+
+        $reservations = $decodedData->reservations;
+        $reservationsObj = new \Reservations($reservations);
+        $campsiteIds = [1,2,3,4,5,6,7,8,9];
+        $gapRules = array(
+            (object)["gapSize" => 2]
+        );
+        $gapRulesObj = new \GapRules($gapRules);
+
+        $searchStartDate = date_create("2016-06-07");
+        $searchEndDate = date_create("2016-06-10");
+
+        $expected = [1,3,5,6,8,9];
+
+        $testClassObject = new \GenerateAvailability();
+
+        $actual = $testClassObject->generateAvailableCampsiteIds($reservationsObj, $campsiteIds, $searchStartDate, $searchEndDate, $gapRulesObj);
 
         $this->assertEquals($expected, $actual);
     }

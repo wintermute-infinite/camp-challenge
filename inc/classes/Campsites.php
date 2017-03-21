@@ -1,7 +1,5 @@
 <?php
 
-require_once ("/var/www/html/projects/campspot/inc/classes/ModelParse.php");
-
 class Campsites
 {
 	private $campsites;
@@ -35,5 +33,3 @@ class Campsites
         $this->campsiteIds = $campsiteIds;
     }
 }
-
-?>

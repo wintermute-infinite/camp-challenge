@@ -8,6 +8,7 @@ class ModelDecodeJsonTest extends TestCase
     public function test_ModelDecodeJson_RetrievesCorrectPathToDataTypeSrc()
     {
         $file = ("test-case.json");
+
         $expected = "/var/www/html/projects/campspot/inc/model/json/";
 
         $testClassObject = new \ModelDecodeJson($file);
@@ -21,11 +22,12 @@ class ModelDecodeJsonTest extends TestCase
     public function test_ModelDecodeJson_ReturnsRawData()
     {
         $file = ("test-case.json");
+
         $expected = file_get_contents("/var/www/html/projects/campspot/inc/model/json/test-case.json");
 
         $testClassObject = new \ModelDecodeJson($file);
 
-        $actual = $testClassObject->returnRawData("test-case.json");
+        $actual = $testClassObject->returnRawData();
 
         $this->assertEquals($expected, $actual);
 
@@ -35,11 +37,12 @@ class ModelDecodeJsonTest extends TestCase
     {
         $rawData = file_get_contents("/var/www/html/projects/campspot/inc/model/json/test-case.json");
         $file = ("test-case.json");
+
         $expected = json_decode($rawData);
 
         $testClassObject = new \ModelDecodeJson($file);
 
-        $actual = $testClassObject->returnDecodedData("test-case.json");
+        $actual = $testClassObject->returnDecodedData();
 
         $this->assertEquals($expected, $actual);
 
@@ -53,7 +56,7 @@ class ModelDecodeJsonTest extends TestCase
 
         $testClassObject = new \ModelDecodeJson($file);
 
-        $actual = $testClassObject->returnDecodedData("test-case.json");
+        $actual = $testClassObject->returnDecodedData();
 
         $this->assertEquals($expected, $actual);
     }
