@@ -5,7 +5,7 @@ namespace PHPUnit\Framework;
 
 class GenerateAvailabilityTest extends TestCase
 {
-
+// Makes sure that an empty reservations object means every campsite is available and therefore the full array is returned
     public function test_generateAvailableCampsiteIds_ReturnsAllCampsiteIdsIfReservationsIsEmpty()
     {
         $reservations = [];
@@ -26,7 +26,7 @@ class GenerateAvailabilityTest extends TestCase
 
         $this->assertEquals($expected, $actual);
     }
-
+// Basic test to make sure that arbitrary searches still result in the date comparisons working and producing usable results
     public function test_generateAvailableCampsiteIds_ReturnsTrimmedArrayForSearchOverlappingWithExistingReservations()
     {
         $reservations = array(
@@ -51,7 +51,7 @@ class GenerateAvailabilityTest extends TestCase
 
         $this->assertEquals($expected, $actual);
     }
-
+// Tests to make sure the results for the input file match the expectations as communcated in the exercise instructions
     public function test_generateAvailableCampsiteIds_ReturnsExpectedFinalResultsArrayIds()
     {
         $rawData = file_get_contents("../model/json/test-case.json");
@@ -78,7 +78,7 @@ class GenerateAvailabilityTest extends TestCase
 
         $this->assertEquals($expected, $actual);
     }
-
+// Makes sure that when there are no set gap rules, the search engine and results still work and return results
     public function test_generateAvailableCampsiteIds_ProducesResultsForNoGapRules()
     {
         $rawData = file_get_contents("../model/json/test-case.json");
@@ -101,7 +101,7 @@ class GenerateAvailabilityTest extends TestCase
 
         $this->assertEquals($expected, $actual);
     }
-
+// Original specs only included a pair of gap rules, so I wanted to make sure a single gap rule would still be accepted and return results
     public function test_generateAvailableCampsiteIds_ProducesResultsForSingleGapRules()
     {
         $rawData = file_get_contents("../model/json/test-case.json");

@@ -10,7 +10,7 @@ class ModelParse extends Model
     {
         $this->setDecodedData($file);
     }
-
+// Parses php data from decoded file from ModelDecodeJson class. The intention behind this was to allow expandability of parsing different data sources/types
     public function setDecodedData($file)
     {
         $dataObj = new ModelDecodeJson($file);

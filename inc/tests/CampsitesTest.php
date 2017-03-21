@@ -4,6 +4,7 @@ namespace PHPUnit\Framework;
 
 class CampsitesTest extends TestCase
 {
+// Tests the campsites method for returning an array of just the ids
     public function test_GetCampsiteIds_WillReturnArrayOfCampsiteIds()
     {
         $rawData = file_get_contents("../model/json/test-case.json");

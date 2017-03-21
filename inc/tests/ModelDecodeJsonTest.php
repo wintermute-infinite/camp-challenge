@@ -4,7 +4,7 @@ namespace PHPUnit\Framework;
 
 class ModelDecodeJsonTest extends TestCase
 {
-
+// Makes sure the getDataSrcPath method works
     public function test_ModelDecodeJson_RetrievesCorrectPathToDataTypeSrc()
     {
         $file = ("test-case.json");
@@ -18,7 +18,7 @@ class ModelDecodeJsonTest extends TestCase
         $this->assertEquals($expected, $actual);
 
     }
-
+// Checks to make sure the returnRawData method works
     public function test_ModelDecodeJson_ReturnsRawData()
     {
         $file = ("test-case.json");
@@ -32,7 +32,7 @@ class ModelDecodeJsonTest extends TestCase
         $this->assertEquals($expected, $actual);
 
     }
-
+// Checks to make sure the returnDecodedData method work
     public function test_ModelDecodeJson_DecodesJsonIntoPhp()
     {
         $rawData = file_get_contents("/var/www/html/projects/campspot/inc/model/json/test-case.json");
@@ -47,7 +47,7 @@ class ModelDecodeJsonTest extends TestCase
         $this->assertEquals($expected, $actual);
 
     }
-
+// Tests file argument constructor
     public function test_ModelDecodeJson_TakesFileArgumentInConstructor() {
         $rawData = file_get_contents("/var/www/html/projects/campspot/inc/model/json/test-case.json");
         $file = ("test-case.json");

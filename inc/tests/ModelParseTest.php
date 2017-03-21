@@ -4,6 +4,7 @@ namespace PHPUnit\Framework;
 
 class ModelParseTest extends TestCase
 {
+// Tests decodedData method results
     public function test_ModelParseTest_getDecodedData()
     {
         $rawData = file_get_contents("/var/www/html/projects/campspot/inc/model/json/test-case.json");
@@ -12,62 +13,6 @@ class ModelParseTest extends TestCase
 
         $testClassObject = new \ModelParse($file);
         $actual = $testClassObject->getDecodedData();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function test_ModelParseTest_getDecodedDataByPrimaryGroupReservations()
-    {
-        $rawData = file_get_contents("/var/www/html/projects/campspot/inc/model/json/test-case.json");
-        $decodedData = json_decode($rawData);
-        $file = "test-case.json";
-        $group = "reservations";
-        $expected = $decodedData->reservations;
-
-        $testClassObject = new \ModelParse($file);
-        $actual = $testClassObject->getDecodedDataByPrimaryGroup($group);
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function test_ModelParseTest_getDecodedDataByPrimaryGroupCampsites()
-    {
-        $rawData = file_get_contents("/var/www/html/projects/campspot/inc/model/json/test-case.json");
-        $decodedData = json_decode($rawData);
-        $file = "test-case.json";
-        $group = "campsites";
-        $expected = $decodedData->campsites;
-
-        $testClassObject = new \ModelParse($file);
-        $actual = $testClassObject->getDecodedDataByPrimaryGroup($group);
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function test_ModelParseTest_getDecodedDataByPrimaryGroupGapRules()
-    {
-        $rawData = file_get_contents("/var/www/html/projects/campspot/inc/model/json/test-case.json");
-        $decodedData = json_decode($rawData);
-        $file = "test-case.json";
-        $group = "gapRules";
-        $expected = $decodedData->gapRules;
-
-        $testClassObject = new \ModelParse($file);
-        $actual = $testClassObject->getDecodedDataByPrimaryGroup($group);
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function test_ModelParseTest_getDecodedDataByPrimaryGroupSearch()
-    {
-        $rawData = file_get_contents("/var/www/html/projects/campspot/inc/model/json/test-case.json");
-        $decodedData = json_decode($rawData);
-        $file = "test-case.json";
-        $group = "search";
-        $expected = $decodedData->search;
-
-        $testClassObject = new \ModelParse($file);
-        $actual = $testClassObject->getDecodedDataByPrimaryGroup($group);
 
         $this->assertEquals($expected, $actual);
     }
